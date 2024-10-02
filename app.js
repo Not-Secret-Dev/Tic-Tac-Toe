@@ -33,7 +33,6 @@ const AddPlayerInput = (box, index) => {
   if (winner) {
     setTimeout(() => {
       alert(`${winner} wins!`);
-      ResetGame();
     }, 500);
   }
 };
