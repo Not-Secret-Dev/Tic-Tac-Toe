@@ -54,7 +54,6 @@ const AddComputerInput = () => {
     if (winner) {
       setTimeout(() => {
         alert(`${winner} wins!`);
-        ResetGame();
       }, 500);
     }
     o_turn = true;
