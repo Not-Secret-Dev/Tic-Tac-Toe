@@ -1,4 +1,4 @@
-let o_turn = true;
+let currentPlayer = "O"; // Start with Player O
 
 const playerInput = Array(9).fill("");
 const boxes = document.querySelectorAll(".box");
@@ -33,49 +33,30 @@ const AddPlayerInput = (box, index) => {
   if (winner) {
     setTimeout(() => {
       alert(`${winner} wins!`);
+      ResetGame();
     }, 500);
-  }
-};
-
-const AddComputerInput = () => {
-  const availableBoxes = Array.from(boxes).filter(
-    (box, index) => playerInput[index] === ""
-  );
-  if (availableBoxes.length > 0) {
-    const randomBox =
-      availableBoxes[Math.floor(Math.random() * availableBoxes.length)];
-    const index = Array.from(boxes).indexOf(randomBox);
-
-    randomBox.innerHTML = "X";
-    playerInput[index] = "X";
-
-    const winner = CheckForWinner();
-    if (winner) {
-      setTimeout(() => {
-        alert(`${winner} wins!`);
-      }, 500);
-    }
-    o_turn = true;
+  } else if (!playerInput.includes("")) {
+    setTimeout(() => {
+      alert("It's a draw!");
+      ResetGame();
+    }, 500);
+  } else {
+    // Switch players
+    currentPlayer = currentPlayer === "O" ? "X" : "O";
   }
 };
 
 const ResetGame = () => {
   playerInput.fill("");
   boxes.forEach((box) => (box.innerHTML = ""));
-  o_turn = true;
+  currentPlayer = "O"; // Reset to Player O's turn
 };
 
 boxes.forEach((box, index) => {
   box.addEventListener("click", () => {
-    if (box.innerHTML === "" && o_turn) {
-      box.innerHTML = "O";
+    if (box.innerHTML === "") {
+      box.innerHTML = currentPlayer; // Place the current player's symbol
       AddPlayerInput(box, index);
-      o_turn = false;
-      setTimeout(() => {
-        if (!CheckForWinner()) {
-          AddComputerInput();
-        }
-      }, 500);
     }
   });
 });
